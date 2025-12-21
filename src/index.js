@@ -1,17 +1,17 @@
-import dotenv from "dotenv";
-import { initMongoConnection } from "./db/initMongoConnection.js";
-import { setupServer } from "./server.js";
+import dotenv from 'dotenv';
+dotenv.config(); // ⬅️ EN ÜSTTE OLMAK ZORUNDA
 
-dotenv.config();
+import { initMongoConnection } from './db/initMongoConnection.js';
+import { setupServer } from './server.js';
 
 const bootstrap = async () => {
-  try {
-    await initMongoConnection();
-    setupServer();
-  } catch (error) {
-    console.error("❌ Application start error:", error.message);
-    process.exit(1);
-  }
+  await initMongoConnection();
+  setupServer();
 };
 
+console.log('ENV CHECK:', process.env.MONGODB_URI);
+
 bootstrap();
+
+
+

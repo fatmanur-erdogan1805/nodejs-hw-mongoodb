@@ -1,15 +1,22 @@
-import mongoose from "mongoose";
+
+import mongoose from 'mongoose';
 
 export const initMongoConnection = async () => {
-    try {
-        const { MONGODB_USER, MONGODB_PASSWORD } = process.env
-        const mongoUri = `mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@cluster0.xciwg0w.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-        await mongoose.connect(mongoUri);
-        console.log("Mongo connection successfully established!");
+  const { MONGODB_URI } = process.env;
 
-    } catch (err) {
-        console.log("Error connecting to MongoDB:", err);
-        process.exit(1);
-    }
+  if (!MONGODB_URI) {
+    console.error('❌ MONGODB_URI is missing');
+    process.exit(1); // ⬅️ ÇOK ÖNEMLİ
+  }
+
+  try {
+    await mongoose.connect(MONGODB_URI);
+    console.log('✅ MongoDB connected successfully');
+  } catch (error) {
+    console.error('❌ MongoDB connection failed');
+    console.error(error.message);
+    process.exit(1); // ⬅️ burada da
+  }
 };
+
 
