@@ -4,8 +4,8 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon src/index.js",
-    "start": "node src/index.js",
-    "seed": "node src/utils/seedContacts.js"
+    "start": "node src/index.js"
+   
   },
   "repository": {
     "type": "git",
