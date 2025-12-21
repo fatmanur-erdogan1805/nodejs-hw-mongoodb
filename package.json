@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-hw-mongodb",
+  "name": "nodejs-hw-mongoodb",
   "version": "1.0.0",
   "type": "module",
   "scripts": {
@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fatmanur-erdogan1805/nodejs-hw-02.git"
+    "url": "git+https://github.com/fatmanur-erdogan1805/nodejs-hw-mongoodb.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fatmanur-erdogan1805/nodejs-hw-02/issues"
+    "url": "https://github.com/fatmanur-erdogan1805/nodejs-hw-mongoodb/issues"
   },
-  "homepage": "https://github.com/fatmanur-erdogan1805/nodejs-hw-02#readme",
+  "homepage": "https://github.com/fatmanur-erdogan1805/nodejs-hw-mongoodb#readme",
   "devDependencies": {
     "nodemon": "^3.1.11"
   },
