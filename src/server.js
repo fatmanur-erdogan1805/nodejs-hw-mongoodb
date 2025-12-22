@@ -1,35 +1,40 @@
+// 5. src/server.js (GÜNCELLENMIŞ)
+// ==========================================
 import express from 'express';
-import pino from 'pino';
+import pino from 'pino-http';
 import cors from 'cors';
-import { getContactsController, getContactByIdController } from './controllers/contacts.js';
+import contactsRouter from './routers/contacts.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler } from './middlewares/notFoundHandler.js';
 
 export const setupServer = () => {
-  const PORT = process.env.PORT || 3000;
   const app = express();
-  const logger = pino();
+  const PORT = process.env.PORT || 3000;
 
+  // Middleware'ler
   app.use(cors());
   app.use(express.json());
+  app.use(
+    pino({
+      transport: {
+        target: 'pino-pretty',
+      },
+    }),
+  );
 
-  app.get('/contacts', getContactsController);
-  app.get('/contacts/:contactId', getContactByIdController);
+  // Routes
+  app.use('/contacts', contactsRouter);
 
-  // 404 handler
-  app.use((req, res) => {
-    res.status(404).json({ message: 'Not found' });
-  });
+  // 404 handler - Route bulunamadı
+  app.use(notFoundHandler);
 
-  // Global error handler
-  app.use((err, req, res, next) => {
-    logger.error(err);
+  // Global error handler middleware
+  app.use(errorHandler);
 
-    res.status(500).json({
-      message: 'Internal server error',
-    });
-  });
-
+  // Sunucuyu başlat
   app.listen(PORT, () => {
-    logger.info(`🚀 Server is running on port ${PORT}`);
+    console.log(`✅ Server is running on port ${PORT}`);
   });
-};
 
+  return app;
+};

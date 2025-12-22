@@ -1,16 +1,26 @@
+// src/index.js
 import dotenv from 'dotenv';
-dotenv.config(); // ⬅️ EN ÜSTTE OLMAK ZORUNDA
-
 import { initMongoConnection } from './db/initMongoConnection.js';
 import { setupServer } from './server.js';
 
+// .env dosyasını yükle (en başta olmalı)
+dotenv.config();
+
 const bootstrap = async () => {
-  await initMongoConnection();
-  setupServer();
+  try {
+    // MongoDB bağlantısını kur
+    await initMongoConnection();
+    
+    // Express sunucusunu başlat
+    setupServer();
+  } catch (error) {
+    console.error('❌ Application start error:', error.message);
+    process.exit(1);
+  }
 };
 
-console.log('ENV CHECK:', process.env.MONGODB_URI);
 
+// Uygulamayı başlat
 bootstrap();
 
 
