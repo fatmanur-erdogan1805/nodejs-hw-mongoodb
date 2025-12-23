@@ -1,4 +1,4 @@
-import {Contact } from '../db/models/Contact.js';
+import Contact from '../db/models/Contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 import { SORT_ORDER } from '../constants/index.js';
 
@@ -38,7 +38,7 @@ export const getAllContacts = async ({
   });
 
   return {
-    contacts,
+    data: contacts,
     totalItems: contactsCount,
     ...paginationData,
   };
