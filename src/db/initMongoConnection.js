@@ -1,22 +1,30 @@
-// src/db/initMongoConnection.js
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 export const initMongoConnection = async () => {
   try {
-    const mongoUri = process.env.MONGODB_URI;
+    const user = process.env.MONGODB_USER;
+    const pwd = process.env.MONGODB_PASSWORD;
+    const url = process.env.MONGODB_URL;
+    const db = process.env.MONGODB_DB;
 
-    if (!mongoUri) {
-      throw new Error('MONGODB_URI is not defined in environment variables');
+    if (!user || !pwd || !url || !db) {
+      throw new Error('MongoDB credentials are missing in .env');
     }
 
-    console.log('🔄 Connecting to MongoDB...');
-    
-    await mongoose.connect(mongoUri);
-    
-    console.log('✅ Mongo connection successfully established!');
-  } catch (err) {
-    console.error('❌ Error connecting to MongoDB:', err.message);
-    throw err;
+    // encodeURIComponent global fonksiyon
+    const encodedUser = encodeURIComponent(user);
+    const encodedPwd = encodeURIComponent(pwd);
+
+    await mongoose.connect(
+      `mongodb+srv://${encodedUser}:${encodedPwd}@${url}/${db}?retryWrites=true&w=majority`
+    );
+
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.error('MongoDB connection failed:', error);
+    throw error;
   }
 };
-

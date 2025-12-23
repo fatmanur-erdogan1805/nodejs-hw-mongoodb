@@ -1,5 +1,4 @@
-// src/routers/contacts.js
-import express from 'express';
+import { Router } from 'express';
 import {
   getContactsController,
   getContactByIdController,
@@ -10,43 +9,15 @@ import {
 import { ctrlWrapper } from '../utils/ctrlWrapper.js';
 import { validateBody } from '../middlewares/validateBody.js';
 import { validateObjectId } from '../middlewares/validateObjectId.js';
-import {
-  createContactSchema,
-  updateContactSchema,
-} from '../validation/contacts.js';
+import { createContactSchema, updateContactSchema } from '../validation/contacts.js';
 
-const router = express.Router();
+const router = Router();
 
-// GET /contacts - Tüm kontakları getir
-router.get('/', ctrlWrapper(getContactsController));
-
-// GET /contacts/:contactId - Tek kontak getir (ObjectId validation)
-router.get(
-  '/:contactId',
-  validateObjectId,
-  ctrlWrapper(getContactByIdController),
-);
-
-// POST /contacts - Yeni kontak oluştur (Body validation)
-router.post(
-  '/',
-  validateBody(createContactSchema),
-  ctrlWrapper(createContactController),
-);
-
-// PATCH /contacts/:contactId - Kontak güncelle (ObjectId + Body validation)
-router.patch(
-  '/:contactId',
-  validateObjectId,
-  validateBody(updateContactSchema),
-  ctrlWrapper(patchContactController),
-);
-
-// DELETE /contacts/:contactId - Kontak sil (ObjectId validation)
-router.delete(
-  '/:contactId',
-  validateObjectId,
-  ctrlWrapper(deleteContactController),
-);
+router.get('/contacts', ctrlWrapper(getContactsController));
+router.get('/contacts/:contactId', validateObjectId, ctrlWrapper(getContactByIdController));
+router.post('/contacts', validateBody(createContactSchema), ctrlWrapper(createContactController));
+router.patch('/contacts/:contactId', validateObjectId, validateBody(updateContactSchema), ctrlWrapper(patchContactController));
+router.delete('/contacts/:contactId', validateObjectId, ctrlWrapper(deleteContactController));
 
 export default router;
+

@@ -1,5 +1,3 @@
-// 3. src/utils/ctrlWrapper.js
-// ==========================================
 export const ctrlWrapper = (controller) => {
   return async (req, res, next) => {
     try {
@@ -7,5 +5,5 @@ export const ctrlWrapper = (controller) => {
     } catch (err) {
       next(err);
     }
-    };
-    };
+  };
+};

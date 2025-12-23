@@ -1,12 +1,17 @@
-// 1. src/middlewares/errorHandler.js
-// ==========================================
-export const errorHandler = (err, req, res, next) => {
-  const status = err.status || 500;
-  const message = err.message || 'Something went wrong';
+import { isHttpError } from 'http-errors';
 
-  res.status(status).json({
-    status,
-    message,
-    data: message,
+export const errorHandler = (err, req, res, next) => {
+  if (isHttpError(err)) {
+    return res.status(err.status).json({
+      status: err.status,
+      message: err.message,
+      data: err,
+    });
+  }
+
+  res.status(500).json({
+    status: 500,
+    message: 'Something went wrong',
+    data: err.message,
   });
 };
